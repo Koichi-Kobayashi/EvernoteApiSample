@@ -20,7 +20,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" x:Name="uploadButton" Content="アップロード" IsEnabled="False" />
+                <Button Grid.Row="0" Grid.Column="0" x:Name="uploadButton" Content="アップロード" IsEnabled="False" Click="uploadButton_Click" />
                 <Button Grid.Row="0" Grid.Column="1" x:Name="clearButton" Content="クリア" IsEnabled="False" Click="clearButton_Click" />
             </Grid>
             <ListBox Grid.Row="2" Grid.Column="0" x:Name="listBox"

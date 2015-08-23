@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EvernoteSDK;
 using FirstFloor.ModernUI.Windows.Controls;
+using MimeTypes;
 
 namespace EvernoteApiSample
 {
@@ -47,8 +50,8 @@ namespace EvernoteApiSample
       string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
       if (files != null)
       {
-        foreach (var m in 
-                 from s in files 
+        foreach (var m in
+                 from s in files
                  where s.LastIndexOf(".docx") != -1 || s.LastIndexOf(".xlsx") != -1 || s.LastIndexOf(".pdf") != -1
                  select s)
         {
@@ -75,9 +78,35 @@ namespace EvernoteApiSample
       e.Handled = true;
     }
 
+    /// <summary>
+    /// Evernoteにファイルをアップロードします
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void uploadButton_Click(object sender, RoutedEventArgs e)
     {
+      FileList list = this.DataContext as FileList;
 
+      try
+      {
+        foreach (var f in list.FileNames)
+        {
+          ENNote resourceNote = new ENNote();
+          resourceNote.Title = "My test note with a resource";
+          resourceNote.Content = ENNoteContent.NoteContentWithString("Hello, resource!");
+          byte[] file = File.ReadAllBytes(f);
+          FileInfo fInfo = new FileInfo(f);
+          ENResource resource = new ENResource(file, MimeTypeMap.GetMimeType(fInfo.Extension), fInfo.Name);
+          resourceNote.Resources.Add(resource);
+          ENNoteRef resourceRef = ENSession.SharedSession.UploadNote(resourceNote, null);
+        }
+      }
+      catch (Exception ex)
+      {
+        ModernDialog.ShowMessage("アップロード中にエラーが発生しました。", "お知らせ", MessageBoxButton.OK);
+        return;
+      }
+      ModernDialog.ShowMessage("アップロードが完了しました。", "お知らせ", MessageBoxButton.OK);
     }
 
     private void clearButton_Click(object sender, RoutedEventArgs e)
