@@ -1,5 +1,4 @@
 Evernote API サンプル
-<<<<<<< Updated upstream
 --
 #概要
 Evernote の API を使うサンプルアプリケーションです。
@@ -10,5 +9,3 @@ Visual Studio Community 2015 (.NET 4.6)
 
 Visual Studio のプロジェクトテンプレートはこちら。
 [Modern UI for WPF Templates](https://visualstudiogallery.msdn.microsoft.com/7a4362a7-fe5d-4f9d-bc7b-0c0dc272fe31 "Modern UI for WPF Templates")
-=======
->>>>>>> Stashed changes
