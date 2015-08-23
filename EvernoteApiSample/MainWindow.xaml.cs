@@ -22,9 +22,22 @@ namespace EvernoteApiSample
   /// </summary>
   public partial class MainWindow : ModernWindow
   {
+    private const string EVERNOTE_HOST = "www.evernote.com";
+    private const string EVERNOTE_SANDBOX_HOST = "sandbox.evernote.com";
+
     public MainWindow()
     {
       InitializeComponent();
+      InitializeEvernote();
+    }
+
+    private void InitializeEvernote()
+    {
+      ENSession.SetSharedSessionConsumerKey(Properties.Settings.Default.ConsumerKey, Properties.Settings.Default.ConsumerSecret, EVERNOTE_SANDBOX_HOST);
+      if (ENSession.SharedSession.IsAuthenticated == false)
+      {
+        ENSession.SharedSession.AuthenticateToEvernote();
+      }
     }
   }
 }
